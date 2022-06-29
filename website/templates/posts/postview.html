@@ -1,0 +1,53 @@
+{# {% extends "users/dashboard.html" %} #}
+<!DOCTYPE html>
+{% load static %}
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+		<title>Posts</title>
+		<style type="text/css">
+			#img1{
+				max-width: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1 align="center">POSTS</h1>
+		<a href="{% url 'dashboard' %}" class="fixed-top">Back To Home</a>
+		<br>
+		{% for post in post_list %}
+			<div align="center"> 
+				<p><strong>{{post.post_title}}</strong></p>
+				<p><strong>{{post.created_on}}</strong></p>
+				<p><strong>{{post.author}}</strong></p>
+				{{post.post_text}}
+				<br>
+				<img id="img1" src="{{post.post_image.url}}" /><br>
+				<a href="{% url 'postupdate' post.id %}">Edit</a> &nbsp; &nbsp;
+				<a href="{% url 'postdelete' post.id %}">Delete</a>
+				<form action="{% url 'postlike' post.id %}" method="post" class="like_form">
+					{% csrf_token %}
+					<button name="post_id" value="{{ post.id }}" type="submit" class="btn btn-primary">Like</button> - {{ totallikes }} likes
+				</form>
+			</div>
+			<br><hr><br>	
+		{% endfor %}
+		<script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/popper.min.js' %}"></script>
+	    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	    <script>
+	    	$(document).ready(function(){
+	    		$('.like_form').submit(function(e){
+	    			e.preventdefault()
+	    			console.log(works)
+	    		});
+	    	});
+	    </script>
+	</body>
+</html>
+
+
+
+	
